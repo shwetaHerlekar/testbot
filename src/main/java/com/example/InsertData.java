@@ -109,7 +109,7 @@ public class InsertData extends HttpServlet {
              	   insertTopic(conn,cRow[0]);
              	   insertSubTopic(conn, cRow[1], cRow[0], out);
              	   insertState(conn, headers, "US", out);
-             	   insertLawDesc(conn, headers, cRow, out);
+             	   //insertLawDesc(conn, headers, cRow, out);
 	   //insertQuestion(conn, cRow[2], cRow[0],cRow[1], out);
                 }
                firstRow = false;
@@ -125,7 +125,7 @@ public class InsertData extends HttpServlet {
 		} catch (Exception e) {
 			out.print("exception!!");
 			out.print(e);
-			System.out.println("exception!!");
+			//System.out.println("exception!!");
 			e.printStackTrace();
 		}
 	  out.println("Good Bye!!");
