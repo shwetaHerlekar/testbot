@@ -138,7 +138,7 @@ public class InsertData extends HttpServlet {
 		// TODO Auto-generated method stub
 	}
 
-	public void insertTopic(String topic) throws SQLException {
+	public void insertTopic(String topic) throws Exception {
 		Connection conn = createDBConnection();
 		stmt = conn.createStatement();
 		int t = stmt.executeUpdate("insert into Topics(topic_name) Values('"+topic+"')");
