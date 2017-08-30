@@ -50,11 +50,11 @@ public class InsertData extends HttpServlet {
 		out.println("Hello SQL!!");	
 		try {
 			
-			Class.forName(JDBC_DRIVER);
+			/*Class.forName(JDBC_DRIVER);
 			DB_URL = System.getProperty("ae-cloudsql.cloudsql-database-url");
 
 			//System.out.println("Connecting to a selected database...");
-			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			conn = DriverManager.getConnection(DB_URL, USER, PASS);*/
 			
 			String path = InsertData.class.getResource("/sample_data.xlsx").getPath();
 			FileInputStream excelFile = new FileInputStream(new File(path));
@@ -106,11 +106,11 @@ public class InsertData extends HttpServlet {
                     }
                 }
                 if(!firstRow){
-             	   insertTopic(conn,cRow[0]);
-             	   insertSubTopic(conn, cRow[1], cRow[0], out);
-             	   insertState(conn, headers, "US", out);
-             	   insertLawDesc(conn, headers, cRow, out);
-	   insertQuestion(conn, cRow[2], cRow[0],cRow[1], out);
+             	   insertTopic(cRow[0]);
+             	   //insertSubTopic(conn, cRow[1], cRow[0], out);
+             	   //insertState(conn, headers, "US", out);
+             	   //insertLawDesc(conn, headers, cRow, out);
+	   //insertQuestion(conn, cRow[2], cRow[0],cRow[1], out);
                 }
                firstRow = false;
                //System.out.println(cRow[0]);
@@ -138,9 +138,11 @@ public class InsertData extends HttpServlet {
 		// TODO Auto-generated method stub
 	}
 
-	public void insertTopic(Connection conn, String topic) throws SQLException {
+	public void insertTopic(String topic) throws SQLException {
+		Connection conn = createDBConnection();
 		stmt = conn.createStatement();
 		int t = stmt.executeUpdate("insert into Topics(topic_name) Values('"+topic+"')");
+		conn.close();
 	}
 	
 	public void insertSubTopic(Connection conn, String subtopic, String topic,PrintWriter out) throws SQLException {
@@ -238,5 +240,15 @@ public class InsertData extends HttpServlet {
 		out.println(question);
 		int uid = 1;
 		int t = stmt.executeUpdate("insert into QuestionsMgnt(possible_questions,questions_type,User_id,topic_id,subtopic_id) Values('"+question+"','SYSTEM','"+uid+"','"+topic_id+"','"+sub_topic_id+"')");	
+	}
+
+	public Connection createDBConnection()
+	{
+		Class.forName(JDBC_DRIVER);
+			DB_URL = System.getProperty("ae-cloudsql.cloudsql-database-url");
+
+			//System.out.println("Connecting to a selected database...");
+			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+	return conn;
 	}
 }
