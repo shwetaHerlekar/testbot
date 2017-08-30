@@ -108,7 +108,7 @@ public class InsertData extends HttpServlet {
                 if(!firstRow){
              	   insertTopic(cRow[0]);
              	   insertSubTopic(cRow[1], cRow[0], out);
-             	   insertState(headers, "US", out);
+             	   //insertState(headers, "US", out);
              	   //insertLawDesc(conn, headers, cRow, out);
 	   //insertQuestion(conn, cRow[2], cRow[0],cRow[1], out);
                 }
@@ -148,14 +148,13 @@ public class InsertData extends HttpServlet {
 	public void insertSubTopic(String subtopic, String topic,PrintWriter out) throws Exception {
 		Connection conn = createDBConnection();
 		stmt = conn.createStatement();
-		int topic_id = getTopicId(topic, out);
+		int topic_id = getTopicId(conn,topic, out);
 		//out.println(subtopic);
 		int t = stmt.executeUpdate("insert into SubTopics(sub_topic_name,topic_id) Values('"+subtopic+"','"+topic_id+"')");
 		conn.close();
 	}
 	
-	public int getTopicId(String topic, PrintWriter out) throws Exception{
-		Connection conn = createDBConnection();
+	public int getTopicId(Connection conn, String topic, PrintWriter out) throws Exception{
 		stmt = conn.createStatement();
 		ResultSet rs = stmt.executeQuery("select topic_id from Topics where topic_name='"+topic+"';");
 		int id=-1;
@@ -163,14 +162,12 @@ public class InsertData extends HttpServlet {
 	         //Retrieve by column name
 	         id  = rs.getInt("topic_id");
 	         //out.println(id);
-	          conn.close();
-	         return id;
+	          return id;
 	      }
-		conn.close();
 		return id;
 	}
 
-	public int getSubTopicId(String subtopic, PrintWriter out) throws Exception{
+	/*public int getSubTopicId(String subtopic, PrintWriter out) throws Exception{
 		Connection conn = createDBConnection();
 		stmt = conn.createStatement();
 		ResultSet rs = stmt.executeQuery("select sub_topic_id from SubTopics where sub_topic_name='"+subtopic+"';");
@@ -256,7 +253,7 @@ public class InsertData extends HttpServlet {
 		int uid = 1;
 		int t = stmt.executeUpdate("insert into QuestionsMgnt(possible_questions,questions_type,User_id,topic_id,subtopic_id) Values('"+question+"','SYSTEM','"+uid+"','"+topic_id+"','"+sub_topic_id+"')");	
 		conn.close();
-	}
+	}*/
 
 	public Connection createDBConnection() throws Exception 
 	{
