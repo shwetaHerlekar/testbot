@@ -110,6 +110,7 @@ public class InsertData extends HttpServlet {
              	   insertSubTopic(conn, cRow[1], cRow[0], out);
              	   insertState(conn, headers, "US", out);
              	   insertLawDesc(conn, headers, cRow, out);
+	   insertQuestion(conn, curRow[2], curRow[0],curRow[1], out);
                 }
                firstRow = false;
                //System.out.println(cRow[0]);
@@ -161,7 +162,19 @@ public class InsertData extends HttpServlet {
 	      }
 		return id;
 	}
-	
+
+	public int getSubTopicId(Connection conn, String subtopic, PrintWriter out) throws SQLException{
+		stmt = conn.createStatement();
+		ResultSet rs = stmt.executeQuery("select sub_topic_id from SubTopics where sub_topic_name='"+subtopic+"';");
+		int id=-1;
+		while(rs.next()){
+	         //Retrieve by column name
+	         id  = rs.getInt("topic_id");
+	         //out.println(id);
+	         return id;
+	      }
+		return id;
+	}	
 	public void insertState(Connection conn, String[] headers, String country,PrintWriter out) throws SQLException {
 		stmt = conn.createStatement();
 		out.println("inside state");
@@ -181,9 +194,9 @@ public class InsertData extends HttpServlet {
 		for (int i = 4; i < curRow.length; i++) {
 			
 			//out.println(curRow[i]);
-			out.println(law_id);
-			law_id++;
-			insertQuestion(conn, curRow[2], law_id, out);
+			//out.println(law_id);
+			//law_id++;
+			
 			if(i==4)
 			{
 				int id = 1;
@@ -216,12 +229,13 @@ public class InsertData extends HttpServlet {
 		return id;
 	}
 	
-	public void insertQuestion(Connection conn, String question, int law_id1,PrintWriter out) throws SQLException {
+	public void insertQuestion(Connection conn, String question, String topic,String subtopic,PrintWriter out) throws SQLException {
 		stmt = conn.createStatement();
-		//int topic_id = getTopicId(conn, country, out);
+		int topic_id = getTopicId(conn, topic, out);
+		int sub_topic_id = getSubTopicId(conn, subtopic, out);
 		stmt = conn.createStatement();
 		out.println(question);
 		int uid = 1;
-		int t = stmt.executeUpdate("insert into QuestionsMgnt(possible_questions,law_desc_id,questions_type,User_id) Values('"+question+"','"+law_id1+"','SYSTEM','"+uid+"')");	
+		int t = stmt.executeUpdate("insert into QuestionsMgnt(possible_questions,questions_type,User_id,topic_id,subtopic_id) Values('"+question+"','SYSTEM','"+uid+"','"+topic_id+"','"+sub_topic_id+"')");	
 	}
 }
