@@ -106,8 +106,8 @@ public class InsertData extends HttpServlet {
                     }
                 }
                 if(!firstRow){
-             	   insertTopic(conn,cRow[0]);
-             	   insertSubTopic(conn, cRow[1], cRow[0], out);
+             	   //insertTopic(conn,cRow[0]);
+             	   //insertSubTopic(conn, cRow[1], cRow[0], out);
              	   //insertState(conn, headers, "US", out);
              	   insertLawDesc(conn, headers, cRow, out);
 	   //insertQuestion(conn, cRow[2], cRow[0],cRow[1], out);
@@ -205,9 +205,8 @@ public class InsertData extends HttpServlet {
 			
 			if(i==3)
 			{
-				
-				out.println(curRow[i]);
-				out.println("////////////////////////////////////////////");
+				//out.println(curRow[i]);
+				//out.println("////////////////////////////////////////////");
 				int id = 1;
 				int id1= getTopicId(conn, curRow[0], out);
 				stmt = conn.createStatement();
@@ -215,6 +214,8 @@ public class InsertData extends HttpServlet {
 			}
 			else
 			{
+				out.println(curRow[i]);
+				out.println("////////////////////////////////////////////");
 				int id = 1;
 				int id1 = getstateId(conn, headers[i], out);
 				int id2 = getTopicId(conn, curRow[0], out);
@@ -222,6 +223,7 @@ public class InsertData extends HttpServlet {
 				int t = stmt.executeUpdate("insert into Law_Description(law_description,state_id,country_id,topic_id) Values('"+curRow[i]+"','"+id1+"','"+id+"','"+id2+"')");
 			}
 		}
+		out.println("///////////....................................////////////////");
 		
 	}
 	
