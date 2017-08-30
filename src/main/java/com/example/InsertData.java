@@ -108,10 +108,14 @@ public class InsertData extends HttpServlet {
                 if(!firstRow){
              	   insertTopic(conn,cRow[0]);
              	   insertSubTopic(conn, cRow[1], cRow[0], out);
-             	   insertState(conn, headers, "US", out);
-             	  // insertLawDesc(conn, headers, cRow, out);
-	   //insertQuestion(conn, cRow[2], cRow[0],cRow[1], out);
+             	   //insertState(conn, headers, "US", out);
+             	   insertLawDesc(conn, headers, cRow, out);
+	   insertQuestion(conn, cRow[2], cRow[0],cRow[1], out);
                 }
+	else
+	{
+		insertState(conn, headers, "US", out);
+	}
                firstRow = false;
                //System.out.println(cRow[0]);
                
@@ -178,6 +182,7 @@ public class InsertData extends HttpServlet {
 	public void insertState(Connection conn, String[] headers, String country,PrintWriter out) throws SQLException {
 		stmt = conn.createStatement();
 		out.println("inside state");
+		out.println(headers);
 		//int topic_id = getTopicId(conn, country, out);
 		
 		for (int i = 5; i < headers.length; i++) {
