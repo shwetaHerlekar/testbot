@@ -107,8 +107,8 @@ public class InsertData extends HttpServlet {
                 }
                 if(!firstRow){
              	   insertTopic(cRow[0]);
-             	   //insertSubTopic(conn, cRow[1], cRow[0], out);
-             	   //insertState(conn, headers, "US", out);
+             	   insertSubTopic(cRow[1], cRow[0], out);
+             	   insertState(headers, "US", out);
              	   //insertLawDesc(conn, headers, cRow, out);
 	   //insertQuestion(conn, cRow[2], cRow[0],cRow[1], out);
                 }
@@ -145,14 +145,17 @@ public class InsertData extends HttpServlet {
 		conn.close();
 	}
 	
-	public void insertSubTopic(Connection conn, String subtopic, String topic,PrintWriter out) throws SQLException {
+	public void insertSubTopic(String subtopic, String topic,PrintWriter out) throws Exception {
+		Connection conn = createDBConnection();
 		stmt = conn.createStatement();
-		int topic_id = getTopicId(conn, topic, out);
+		int topic_id = getTopicId(topic, out);
 		//out.println(subtopic);
 		int t = stmt.executeUpdate("insert into SubTopics(sub_topic_name,topic_id) Values('"+subtopic+"','"+topic_id+"')");
+		conn.close();
 	}
 	
-	public int getTopicId(Connection conn, String topic, PrintWriter out) throws SQLException{
+	public int getTopicId(String topic, PrintWriter out) throws Exception{
+		Connection conn = createDBConnection();
 		stmt = conn.createStatement();
 		ResultSet rs = stmt.executeQuery("select topic_id from Topics where topic_name='"+topic+"';");
 		int id=-1;
@@ -162,10 +165,12 @@ public class InsertData extends HttpServlet {
 	         //out.println(id);
 	         return id;
 	      }
+		conn.close();
 		return id;
 	}
 
-	public int getSubTopicId(Connection conn, String subtopic, PrintWriter out) throws SQLException{
+	public int getSubTopicId(String subtopic, PrintWriter out) throws Exception{
+		Connection conn = createDBConnection();
 		stmt = conn.createStatement();
 		ResultSet rs = stmt.executeQuery("select sub_topic_id from SubTopics where sub_topic_name='"+subtopic+"';");
 		int id=-1;
@@ -173,11 +178,14 @@ public class InsertData extends HttpServlet {
 	         //Retrieve by column name
 	         id  = rs.getInt("sub_topic_id");
 	         //out.println(id);
+	         conn.close();
 	         return id;
 	      }
+		 conn.close();
 		return id;
 	}	
-	public void insertState(Connection conn, String[] headers, String country,PrintWriter out) throws SQLException {
+	public void insertState(String[] headers, String country,PrintWriter out) throws Exception {
+		Connection conn = createDBConnection();
 		stmt = conn.createStatement();
 		out.println("inside state");
 		//int topic_id = getTopicId(conn, country, out);
@@ -187,7 +195,7 @@ public class InsertData extends HttpServlet {
 			int t1 = 1;
 			int t = stmt.executeUpdate("insert into State(state_name,country_id) Values('"+headers[i]+"','"+t1+"')");
 		}
-		
+		 conn.close();
 		
 	}
 	
