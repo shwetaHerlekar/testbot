@@ -210,7 +210,7 @@ public class InsertData extends HttpServlet {
 			if(i==4)
 			{
 				int id = 1;
-				int id1= getTopicId(conn, curRow[0], out);
+				int id1= getTopicId(curRow[0], out);
 				stmt = conn.createStatement();
 				int t = stmt.executeUpdate("insert into Law_Description(law_description,country_id,topic_id) Values('"+curRow[4]+"','"+id+"','"+id1+"')");
 			}
@@ -218,7 +218,7 @@ public class InsertData extends HttpServlet {
 			{
 				int id = 1;
 				int id1 = getstateId(conn, headers[i], out);
-				int id2 = getTopicId(conn, curRow[0], out);
+				int id2 = getTopicId(curRow[0], out);
 				stmt = conn.createStatement();
 				int t = stmt.executeUpdate("insert into Law_Description(law_description,state_id,country_id,topic_id) Values('"+curRow[4]+"','"+id1+"','"+id+"','"+id2+"')");
 			}
@@ -242,8 +242,8 @@ public class InsertData extends HttpServlet {
 	public void insertQuestion(Connection conn, String question, String topic,String subtopic,PrintWriter out) throws SQLException {
 		out.println("inside questions");
 		stmt = conn.createStatement();
-		int topic_id = getTopicId(conn, topic, out);
-		int sub_topic_id = getSubTopicId(conn, subtopic, out);
+		int topic_id = getTopicId(topic, out);
+		int sub_topic_id = getSubTopicId(subtopic, out);
 		stmt = conn.createStatement();
 		out.println(question);
 		int uid = 1;
