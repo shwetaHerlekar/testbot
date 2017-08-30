@@ -163,6 +163,7 @@ public class InsertData extends HttpServlet {
 	         //Retrieve by column name
 	         id  = rs.getInt("topic_id");
 	         //out.println(id);
+	          conn.close();
 	         return id;
 	      }
 		conn.close();
@@ -199,7 +200,8 @@ public class InsertData extends HttpServlet {
 		
 	}
 	
-	public void insertLawDesc(Connection conn, String[] headers, String[] curRow,PrintWriter out) throws SQLException {
+	public void insertLawDesc(String[] headers, String[] curRow,PrintWriter out) throws Exception {
+		Connection conn = createDBConnection();
 		out.println("inside law desc");
 		for (int i = 4; i < curRow.length; i++) {
 			
@@ -223,10 +225,12 @@ public class InsertData extends HttpServlet {
 				int t = stmt.executeUpdate("insert into Law_Description(law_description,state_id,country_id,topic_id) Values('"+curRow[4]+"','"+id1+"','"+id+"','"+id2+"')");
 			}
 		}
+		conn.close();
 		
 	}
 	
-	public int getstateId(Connection conn, String state, PrintWriter out) throws SQLException{
+	public int getstateId(String state, PrintWriter out) throws Exception{
+		Connection conn = createDBConnection();
 		stmt = conn.createStatement();
 		ResultSet rs = stmt.executeQuery("select state_id from State where state_name='"+state+"';");
 		int id=-1;
@@ -234,12 +238,15 @@ public class InsertData extends HttpServlet {
 	         //Retrieve by column name
 	         id  = rs.getInt("state_id");
 	         //out.println(id);
+		conn.close();
 	         return id;
 	      }
+		conn.close();
 		return id;
 	}
 	
-	public void insertQuestion(Connection conn, String question, String topic,String subtopic,PrintWriter out) throws SQLException {
+	public void insertQuestion(String question, String topic,String subtopic,PrintWriter out) throws Exception {
+		Connection conn = createDBConnection();
 		out.println("inside questions");
 		stmt = conn.createStatement();
 		int topic_id = getTopicId(topic, out);
@@ -248,6 +255,7 @@ public class InsertData extends HttpServlet {
 		out.println(question);
 		int uid = 1;
 		int t = stmt.executeUpdate("insert into QuestionsMgnt(possible_questions,questions_type,User_id,topic_id,subtopic_id) Values('"+question+"','SYSTEM','"+uid+"','"+topic_id+"','"+sub_topic_id+"')");	
+		conn.close();
 	}
 
 	public Connection createDBConnection() throws Exception 
