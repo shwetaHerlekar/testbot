@@ -201,9 +201,11 @@ public class InsertData extends HttpServlet {
 			
 			//out.println(law_id);
 			//law_id++;
+			curRow[i] = curRow[i].replace("'","''");
 			
 			if(i==3)
 			{
+				
 				out.println(curRow[i]);
 				out.println("////////////////////////////////////////////");
 				int id = 1;
