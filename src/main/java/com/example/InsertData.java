@@ -51,7 +51,7 @@ public class InsertData extends HttpServlet {
 		try {
 			
 			Class.forName(JDBC_DRIVER);
-			DB_URL = System.getProperty("ae-cloudsql.cloudsql-database-url");
+			DB_URL = System.getProperty("ae-cloudsql.cloudsql-database-url")+"?autoReconnect=true&useUnicode=yes";
 
 			//System.out.println("Connecting to a selected database...");
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -109,7 +109,7 @@ public class InsertData extends HttpServlet {
              	   insertTopic(conn,cRow[0]);
              	   insertSubTopic(conn, cRow[1], cRow[0], out);
              	   insertState(conn, headers, "US", out);
-             	   insertLawDesc(conn, headers, cRow, out);
+             	  // insertLawDesc(conn, headers, cRow, out);
 	   //insertQuestion(conn, cRow[2], cRow[0],cRow[1], out);
                 }
                firstRow = false;
