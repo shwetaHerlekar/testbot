@@ -182,7 +182,7 @@ public class InsertData extends HttpServlet {
 	public void insertState(String[] headers, String country,PrintWriter out) throws Exception {
 		Connection conn = createDBConnection();
 		stmt = conn.createStatement();
-		out.println("inside state");
+		out.println(headers.length);
 		//int topic_id = getTopicId(conn, country, out);
 		
 		for (int i = 5; i < headers.length; i++) {
