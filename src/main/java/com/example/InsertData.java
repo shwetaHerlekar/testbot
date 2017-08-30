@@ -108,7 +108,7 @@ public class InsertData extends HttpServlet {
                 if(!firstRow){
              	   insertTopic(cRow[0]);
              	   insertSubTopic(cRow[1], cRow[0], out);
-             	   //insertState(headers, "US", out);
+             	   insertState(headers, "US", out);
              	   //insertLawDesc(conn, headers, cRow, out);
 	   //insertQuestion(conn, cRow[2], cRow[0],cRow[1], out);
                 }
@@ -167,8 +167,7 @@ public class InsertData extends HttpServlet {
 		return id;
 	}
 
-	/*public int getSubTopicId(String subtopic, PrintWriter out) throws Exception{
-		Connection conn = createDBConnection();
+	public int getSubTopicId(Connection conn,String subtopic, PrintWriter out) throws Exception{ 
 		stmt = conn.createStatement();
 		ResultSet rs = stmt.executeQuery("select sub_topic_id from SubTopics where sub_topic_name='"+subtopic+"';");
 		int id=-1;
@@ -176,10 +175,8 @@ public class InsertData extends HttpServlet {
 	         //Retrieve by column name
 	         id  = rs.getInt("sub_topic_id");
 	         //out.println(id);
-	         conn.close();
 	         return id;
 	      }
-		 conn.close();
 		return id;
 	}	
 	public void insertState(String[] headers, String country,PrintWriter out) throws Exception {
@@ -197,7 +194,7 @@ public class InsertData extends HttpServlet {
 		
 	}
 	
-	public void insertLawDesc(String[] headers, String[] curRow,PrintWriter out) throws Exception {
+	/*public void insertLawDesc(String[] headers, String[] curRow,PrintWriter out) throws Exception {
 		Connection conn = createDBConnection();
 		out.println("inside law desc");
 		for (int i = 4; i < curRow.length; i++) {
