@@ -122,7 +122,8 @@ public class InsertData extends HttpServlet {
             System.out.println("colsize : "+headers.length);*/
 			
 		} catch (Exception e) {
-			out.print("exception!!");	
+			out.print("exception!!");
+			out.print(e);
 			System.out.println("exception!!");
 			e.printStackTrace();
 		}
