@@ -169,7 +169,7 @@ public class InsertData extends HttpServlet {
 		int id=-1;
 		while(rs.next()){
 	         //Retrieve by column name
-	         id  = rs.getInt("topic_id");
+	         id  = rs.getInt("sub_topic_id");
 	         //out.println(id);
 	         return id;
 	      }
